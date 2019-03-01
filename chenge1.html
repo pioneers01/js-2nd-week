@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>点击图案切换</title>
+    <!--<link rel="stylesheet" href="rest.css">-->
+    <style>
+        .clearfix:after{
+            /*content:"";*/
+            /*clear: both;*/
+            /*display: block;*/
+            content:"";//设置内容为空
+　　　　　　height:0;//高度为0
+　　　　　　line-height:0;//行高为0
+　　　　　　display:block;//将文本转为块级元素
+　　　　　　visibility:hidden;//将元素隐藏
+　　　　　　clear:both;//清除浮动
+        }
+        .clearfix{
+            zoom: 1;
+        }
+        .main{
+            width:690px;
+            height:460px;
+            margin: 0 auto;
+            text-align: center;
+            background-image: url("timg0.jpg");
+        }
+        .message{
+            float: right;
+            margin-right: 0;
+            width: 60px;
+            height: 70px;
+            background-color: rgba(253,245,230,.5);
+            display: block;
+            line-height: 70px;
+        }
+        .msg1{
+            margin-top: 0;
+        }
+        .msg2{
+            margin-top: 90px;
+            margin-right: -60px;
+        }
+        .msg3{
+            margin-top: 180px;
+            margin-right: -60px;
+        }
+        .msg4{
+            margin-top: 270px;
+            margin-right: -60px;
+        }
+        .msg5{
+            float: right;
+            margin-right: 0;
+            width: 690px;
+            height: 120px;
+            background-color: rgba(253,245,230,.5);
+            line-height: 120px;
+        }
+        .notes{
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="main clearfix">
+        <div class="message msg1">who</div>
+        <div class="message msg2">where</div>
+        <div class="message msg3">sex</div>
+        <div class="message msg4">age</div>
+        <div class="msg5">
+            <span class="notes note1">我是考拉啊！不认识我了吗？</span>
+            <span class="notes note2">我在澳大利亚，号称国宝呢~</span>
+            <span class="notes note3">不告诉你，这是秘密</span>
+            <span class="notes note4">我今年X岁</span>
+            <span class="note5">猜猜我是谁</span>
+        </div>
+    </div>
+    <script src="index.js"></script>
+    <script>
+        var color= ['blue','red','yellow','green','rgba(253,245,230,.5)'];
+        var message = document.getElementsByClassName("message");
+        var notes =document.getElementsByClassName("notes");
+        for (var i = 0; i < message.length; i++) {
+            message[i].onclick = function() {
+                for (j=0;j<message.length; j++) {
+                    message[j].index = j;
+                    if (message[j]==this){
+                        this.style.backgroundColor=color[this.index];
+                        this.style.width="80px";
+                        if (j!=0){
+                            message[j].style.marginRight="-60px";
+                        }
+                        notes[this.index].style.display="block";
+                        document.getElementsByClassName("note5")[0].style.display="none";
+                        document.getElementsByClassName("main")[0].style.backgroundImage='url(timg'+this.index+'.jpg)';
+                    }else{
+                        message[j].style.width="60px";
+                        message[j].style.backgroundColor=color[4];
+                        if (j!=0&&j<this.index){
+                            message[j].style.marginRight="-60px";
+                        }else if(j!=0&&j>this.index){
+                            message[j].style.marginRight="-80px";
+                        }
+                        notes[j].style.display="none";
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
