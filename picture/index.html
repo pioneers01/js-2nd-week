@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>百度图片滚动</title>
+    <style>
+        .clearfix:after{
+            content: "";
+            height: 0;
+            display: block;
+            clear: both;
+        }
+        .clearfix{
+            zoom: 1;
+        }
+        .main{
+            width: 600px;
+            height: 500px;
+            margin: 0 auto;
+        }
+        .picture{
+            height: 400px;
+            overflow: hidden;
+            position: relative;
+        }
+        .box{
+            position: relative;
+            width: 3000px;
+            font-size: 0;
+            z-index: 50;
+        }
+        .show-pic{
+            position: relative;
+            width: 600px;
+            height: 400px;
+            z-index: 50;
+        }
+        .word{
+            position: relative;
+            margin-left: 0;
+            margin-top: -40px;
+            z-index: 100;
+            height: 30px;
+            width: 590px;
+            background-color: rgba(0,0,0,.5);
+            color: white;
+            line-height: 30px;
+            padding-left: 10px;
+        }
+        .little{
+            height: 150px;
+            background-color: #000;
+        }
+        .l-pic{
+            float: left;
+            margin-left: 25px;
+            margin-top: 35px;
+            width:90px;
+            height: 60px;
+        }
+        .aaa{
+            opacity: .5
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="picture clearfix">
+            <div class="box">
+                <img class="show-pic" src="pic1.jpg" alt="">
+                <img class="show-pic" src="pic2.jpg" alt="">
+                <img class="show-pic" src="pic3.jpg" alt="">
+                <img class="show-pic" src="pic4.jpg" alt="">
+                <img class="show-pic" src="pic5.jpg" alt="">
+            </div>
+        </div>
+        <div class="little clearfix">
+            <div class="word">第1幅图</div>
+            <img class="l-pic " src="pic1.jpg" alt="">
+            <img class="l-pic aaa" src="pic2.jpg" alt="">
+            <img class="l-pic aaa" src="pic3.jpg" alt="">
+            <img class="l-pic aaa" src="pic4.jpg" alt="">
+            <img class="l-pic aaa" src="pic5.jpg" alt="">
+        </div>
+    </div>
+    <script>
+        var picture =document.getElementsByClassName("picture");
+        var litterPic =document.getElementsByClassName("l-pic");
+        var word =document.getElementsByClassName("word");
+        var step;
+        var stepX;
+        var index=0;
+        myChange=setInterval(change,3000);
+        function change() {
+            word[0].innerHTML="第"+(index+2)+"幅图";
+            if (index+2==6) {
+                word[0].innerHTML="第1幅图";
+            }
+            if (myMove){
+                clearInterval(myMove);
+            }
+            var myMove=setInterval(move,20);
+            stepX=picture[0].scrollLeft;
+            function move(){
+                step=(index*600-stepX)/10;
+                stepX+=step;
+                if (index*600-stepX<6) {
+                    stepX=index*600;
+                    clearInterval(myMove);
+                }
+                picture[0].scrollLeft=stepX;
+            }
+            console.log(index);
+            if (index==4) {
+                litterPic[0].classList.remove("aaa");
+            }else if(index<0){
+                litterPic[0].classList.remove("aaa");
+                index=4;
+            }else{
+                litterPic[index+1].classList.remove("aaa");
+            }
+            litterPic[index].classList.add("aaa");
+            index++;
+            if (index>=5){index=0}
+        }
+        for (var i=0;i<litterPic.length;i++){
+            litterPic[i].index=i;
+            litterPic[i].onclick=function () {
+                clearInterval(myChange);
+                index=this.index-1;
+                for (var j=0;j<litterPic.length;j++){
+                    litterPic[j].classList.add("aaa");
+                }
+                litterPic[this.index].classList.remove("aaa");
+                change();
+                myChange=setInterval(change,3000);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>滚动+滑动</title>
+    <style>
+        .main{
+            width: 600px;
+            height: 600px;
+            margin: 0 auto;
+        }
+        .pic{
+            width: 600px;
+            overflow: hidden;
+        }
+        .box{
+            font-size: 0;
+            width: 2400px;
+        }
+        .box img{
+            width: 600px;
+            height: 400px;
+        }
+        .list{
+            margin-top: 10px;
+            background-color: black;
+            color: white;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="pic">
+            <div class="box">
+                <img src="pic1.jpg" alt="">
+                <img src="pic2.jpg" alt="">
+                <img src="pic3.jpg" alt="">
+                <img src="pic4.jpg" alt="">
+            </div>
+        </div>
+        <div class="list-box">
+            <div class="list">风景图</div>
+            <div class="list">风景图</div>
+            <div class="list">风景图</div>
+            <div class="list">风景图</div>
+        </div>
+    </div>
+    <script>
+        var start=document.getElementsByClassName("pic");
+        var list=document.getElementsByClassName("list");
+        var stepX;
+        var index=0;
+        // var move;
+        myChange=setInterval(change,3000);
+        function change() {
+            move=setInterval(move,20);
+            console.log(index);
+            index++;
+            if (index==4) {index=0}
+            stepX=start[0].scrollLeft;
+            function move() {
+                step=(index*600-stepX)/10;
+                stepX+=step;
+                if (stepX-start[0].scrollLeft<5) {
+                    start[0].scrollLeft=index*600;
+                    clearInterval(move);
+                }else{
+                    start[0].scrollLeft=stepX;
+                }
+            }
+        }
+        for (var i=0;i<list.length;i++){
+            list[i].index=i;
+            list[i].onmouseover=function () {
+                list[this.index].style.width="450px";
+                index=this.index-1;
+                clearInterval(myChange);
+                change();
+                myChange=setInterval(change,3000);
+            };
+            list[i].onmouseout=function () {
+                list[this.index].style.width="300px";
+            }
+        }
+    </script>
+</body>
+</html>
